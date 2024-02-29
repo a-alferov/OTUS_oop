@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   linters:
@@ -21,3 +22,19 @@ jobs:
 
       - name: Run linters
         run: make lint
+
+  tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v5
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - run: poetry install  --no-root
+
+      - name: Run tests
+        run: make tests
